@@ -20,7 +20,24 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         return http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/user").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt())  // <-- use your JwtDecoder bean
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .build();
+
+/*        return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
@@ -29,10 +46,14 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt())
+                .oauth2ResourceServer((oauth2) -> oauth2
+                        .jwt((jwt) -> jwt
+                                .decoder(myCustomDecoder())
+                        )
+                )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .build();
+                .build();*/
     }
 
     @Bean

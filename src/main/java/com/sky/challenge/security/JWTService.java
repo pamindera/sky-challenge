@@ -2,19 +2,12 @@ package com.sky.challenge.security;
 
 import com.sky.challenge.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.oauth2.jwt.JwsHeader;
-
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
-import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
-import com.nimbusds.jose.JWSAlgorithm;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -24,7 +17,6 @@ import java.time.temporal.ChronoUnit;
 public class JWTService {
 
     private final JwtEncoder encoder;
-    private final JwtDecoder decoder;
 
     public String generateToken(User user) {
         Instant now = Instant.now();
@@ -37,7 +29,7 @@ public class JWTService {
                 .build();
 
         var encoderParameters = JwtEncoderParameters.from(
-                JwsHeader.with(JWSAlgorithm.RS256).build(),
+                JwsHeader.with(SignatureAlgorithm.RS256).build(),
                 claims
         );
 
