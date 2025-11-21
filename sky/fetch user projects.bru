@@ -1,0 +1,16 @@
+meta {
+  name: fetch user projects
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://localhost:8080/api/v1/user/ffd319b7-74b2-47d4-8f89-e33d9cc6e179
+  body: json
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

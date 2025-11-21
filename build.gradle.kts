@@ -34,9 +34,6 @@ dependencies {
     // implementation("org.flywaydb:flyway-core")
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.+")
-    implementation("org.mapstruct:mapstruct:1.6.3")
-
-    annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 

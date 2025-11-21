@@ -1,6 +1,5 @@
 package com.sky.challenge.dto.request;
 
-import com.sky.challenge.error.ErrorMessage;
 import jakarta.validation.constraints.*;
 import lombok.Setter;
 
@@ -18,6 +17,7 @@ public class LoginRequestDTO {
     public String getEmail() {
         return email.trim();
     }
+
     public String getPassword() {
         return password.trim();
     }

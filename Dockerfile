@@ -11,22 +11,16 @@ RUN ./gradlew dependencies --no-daemon
 
 COPY src ./src
 
-RUN ./gradlew quarkusBuild --no-daemon
+RUN ./gradlew bootJar --no-daemon
 
 # ---- Runtime stage ----
 FROM eclipse-temurin:21-jre
 
 WORKDIR /deployments
 
-COPY --from=build /workspace/build/quarkus-app/lib/ ./lib/
-COPY --from=build /workspace/build/quarkus-app/*.jar ./
-COPY --from=build /workspace/build/quarkus-app/app/ ./app/
-COPY --from=build /workspace/build/quarkus-app/quarkus/ ./quarkus/
+COPY --from=build /workspace/build/libs/*.jar app.jar
 
 EXPOSE 8080
 USER 1001
 
-ENV JAVA_OPTS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
-ENV JAVA_APP_JAR="/deployments/quarkus-run.jar"
-
-ENTRYPOINT ["java", "-jar", "/deployments/quarkus-run.jar"]
+ENTRYPOINT ["sh", "-c", "java -jar /deployments/app.jar"]

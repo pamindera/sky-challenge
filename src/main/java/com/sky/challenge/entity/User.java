@@ -9,7 +9,7 @@ import lombok.*;
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email", name = "ukey_users_email"))
 @Getter
 @NoArgsConstructor
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -20,14 +20,12 @@ public class User extends BaseEntity{
     @Column(nullable = true)
     private String name;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @OneToMany(
+            mappedBy = "user",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<Project> projects;
 
-    public User(
-            String email,
-            String password,
-            String name
-    ) {
+    public User(String email, String password, String name) {
         this.email = email;
         this.password = password;
         this.name = name;
@@ -39,5 +37,9 @@ public class User extends BaseEntity{
         project.setUser(this);
 
         return this;
+    }
+
+    public void updateDetails(String name) {
+        this.name = name;
     }
 }

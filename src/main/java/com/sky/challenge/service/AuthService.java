@@ -5,17 +5,13 @@ import com.sky.challenge.dto.response.LoginResponseDTO;
 import com.sky.challenge.entity.User;
 import com.sky.challenge.error.ErrorMessage;
 import com.sky.challenge.repository.UserRepositoryInterface;
-// import com.sky.challenge.security.JWTService;
 import com.sky.challenge.security.JWTService;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,7 +25,8 @@ public class AuthService {
 
         Optional<User> user = userRepository.findByEmail(request.getEmail());
 
-        if(user.isEmpty() || !passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
+        if (user.isEmpty()
+                || !passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, ErrorMessage.INVALID_CREDENTIALS);
         }
 

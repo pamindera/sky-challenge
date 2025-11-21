@@ -1,0 +1,29 @@
+# Ignore Gradle cache and build outputs
+.gradle/
+build/
+out/
+
+# Ignore IDE files
+*.iml
+.idea/
+*.ipr
+*.iws
+.vscode/
+
+# Ignore local environment files
+.env
+*.local
+*.properties
+
+# Ignore certificates and keys
+certs/
+*.crt
+*.key
+*.pem
+
+# Ignore logs
+*.log
+
+# Ignore OS files
+.DS_Store
+Thumbs.db

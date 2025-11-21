@@ -1,0 +1,20 @@
+meta {
+  name: fetch user
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:8080/api/v1/user/a0a3fd4d-d14f-40a5-b525-ea1ae98aedfd
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJzZWxmIiwic3ViIjoibWluZGVyYUBtaW5kZXJhLmNvbSIsImV4cCI6MTc2Mzc0NzEwNiwiaWF0IjoxNzYzNzQzNTA2fQ.ieqcQAjdoT4f21DiHEInhOSstnVc_YMdxeom-EYtMK8maa1bV4v0txNIM3cAItNyLVX7kUQJifcPRBl_pRNrA63je4pIu9TEE4z5Vz-AqBRtQip7SUZVjcCrEwTQyaH3cT8muVsaZmSkRw2KDqxjbdrhQBEX2wjDZWga70KR0fKhr9vOb8EF-e8Kx3zRvznnQyQ8UoegOLKWYLyp2fniCSzB5wXiPUlUYoGyxZI6fuiaYzHDyugOv4Otl2tb0R1XttxGLTrFONtiZlkpwp1De9Y9-9j54fcM96Z6q0AMm4ai8wjsPTsOf8yVfmpiadagmSgbo7XoLqLuW-DEdc9I_g
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
