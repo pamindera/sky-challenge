@@ -25,8 +25,8 @@ public class JWTConfig {
         JWK jwk = new RSAKey.Builder(rsaKeys.getPublicKey())
                 .privateKey(rsaKeys.getPrivateKey())
                 .build();
-        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
-        return new NimbusJwtEncoder(jwks);
+        JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(jwk));
+        return new NimbusJwtEncoder(jwkSource);
     }
 
     @Bean

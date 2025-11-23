@@ -3,8 +3,6 @@ package com.sky.challenge.security;
 import com.sky.challenge.entity.User;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
 import org.springframework.security.oauth2.jwt.*;
@@ -24,7 +22,7 @@ public class JWTService {
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plus(1, ChronoUnit.HOURS))
-                .subject(user.getEmail())
+                .subject(user.getId().toString())
                 .build();
 
         var encoderParameters = JwtEncoderParameters.from(

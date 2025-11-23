@@ -4,8 +4,6 @@ services:
     image: gradle:8.14-jdk21
     user: root
     working_dir: /app
-    # command: ./gradlew bootRun
-      ##--continuous
     command: ./gradlew bootRun
     environment:
       - TESTCONTAINERS_HOST_OVERRIDE=host.docker.internal
@@ -23,7 +21,7 @@ services:
       - 8.8.4.4
   database:
     container_name: database
-    image: postgres:17.6
+    image: postgres:17.5
     environment:
       POSTGRES_PASSWORD: root
       POSTGRES_USER: root
@@ -32,5 +30,14 @@ services:
       - "5432:5432"
     volumes:
       - sky_db_data:/var/lib/postgresql/data
+  jaeger:
+    image: jaegertracing/all-in-one:1.75.0
+    container_name: jaeger
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
 volumes:
   sky_db_data: {}

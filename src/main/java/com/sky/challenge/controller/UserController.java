@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,21 +28,25 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("#user.getId().toString().equals(#id.toString())")
+    @PreAuthorize("#id == #user.id")
     public ResponseEntity<UserResponseDTO> executeGet(@AuthenticationPrincipal User user, @PathVariable UUID id) {
         var response = service.get(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PatchMapping("{id}")
+    @PreAuthorize("#id == #user.id")
     public ResponseEntity<?> executeUpdate(
-            @PathVariable UUID id, @Validated @RequestBody UpdateUserRequestDTO request) {
+            @AuthenticationPrincipal User user,
+            @PathVariable UUID id,
+            @Validated @RequestBody UpdateUserRequestDTO request) {
         var response = service.update(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> executeDelete(@PathVariable UUID id) {
+    @PreAuthorize("#id == #user.id")
+    public ResponseEntity<?> executeDelete(@AuthenticationPrincipal User user, @PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
