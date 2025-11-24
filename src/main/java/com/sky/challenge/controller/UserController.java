@@ -5,6 +5,7 @@ import com.sky.challenge.dto.request.UpdateUserRequestDTO;
 import com.sky.challenge.dto.response.UserResponseDTO;
 import com.sky.challenge.entity.User;
 import com.sky.challenge.service.UserService;
+import io.swagger.v3.oas.annotations.Parameter;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,12 @@ public class UserController {
 
     @GetMapping("{id}")
     @PreAuthorize("#id == #user.id")
-    public ResponseEntity<UserResponseDTO> executeGet(@AuthenticationPrincipal User user, @PathVariable UUID id) {
+    public ResponseEntity<UserResponseDTO> executeGet(
+            @Parameter(description = "Authorization token", example = "Bearer <token>")
+                    @RequestHeader(value = "Authorization", required = true)
+                    String authorization,
+            @AuthenticationPrincipal User user,
+            @PathVariable UUID id) {
         var response = service.get(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -37,6 +43,9 @@ public class UserController {
     @PatchMapping("{id}")
     @PreAuthorize("#id == #user.id")
     public ResponseEntity<?> executeUpdate(
+            @Parameter(description = "Authorization token", example = "Bearer <token>")
+                    @RequestHeader(value = "Authorization", required = true)
+                    String authorization,
             @AuthenticationPrincipal User user,
             @PathVariable UUID id,
             @Validated @RequestBody UpdateUserRequestDTO request) {
@@ -46,7 +55,12 @@ public class UserController {
 
     @DeleteMapping("{id}")
     @PreAuthorize("#id == #user.id")
-    public ResponseEntity<?> executeDelete(@AuthenticationPrincipal User user, @PathVariable UUID id) {
+    public ResponseEntity<?> executeDelete(
+            @Parameter(description = "Authorization token", example = "Bearer <token>")
+                    @RequestHeader(value = "Authorization", required = true)
+                    String authorization,
+            @AuthenticationPrincipal User user,
+            @PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

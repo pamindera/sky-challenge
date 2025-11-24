@@ -6,7 +6,6 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.7"
     id("com.diffplug.spotless") version "7.2.1"
     id("io.freefair.lombok") version "8.14.2"
-
 }
 
 group = "com.sky"
@@ -30,27 +29,27 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+
     implementation("io.micrometer:micrometer-tracing")
     implementation("io.micrometer:micrometer-tracing-bridge-otel")
     implementation("io.opentelemetry:opentelemetry-exporter-otlp")
-
-    // implementation("org.flywaydb:flyway-core")
-
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-database-postgresql:11.12.+")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.+")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     runtimeOnly("org.postgresql:postgresql")
 
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testRuntimeOnly("com.h2database:h2")
-
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+
     testImplementation("io.rest-assured:rest-assured:5.5.+")
     testImplementation("net.datafaker:datafaker:2.4.+")
+
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("com.h2database:h2")
 }
 
 tasks.withType<Test> {

@@ -1,6 +1,5 @@
 package utils;
 
-
 import com.sky.challenge.repository.ProjectRepositoryInterface;
 import com.sky.challenge.repository.UserRepositoryInterface;
 import com.sky.challenge.security.JWTService;
@@ -18,14 +17,7 @@ public class TestConfig {
             UserRepositoryInterface userRepository,
             PasswordEncoder passwordEncoder,
             JWTService jwtService,
-            EntityManager entityManager
-    ) {
-        return new TestingFixtures(
-                projectRepository,
-                userRepository,
-                passwordEncoder,
-                jwtService,
-                entityManager
-        );
+            EntityManager entityManager) {
+        return new TestingFixtures(projectRepository, userRepository, passwordEncoder, jwtService, entityManager);
     }
 }

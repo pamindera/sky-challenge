@@ -6,6 +6,7 @@ import com.sky.challenge.dto.response.ListResponseDTO;
 import com.sky.challenge.dto.response.ProjectResponseDTO;
 import com.sky.challenge.entity.User;
 import com.sky.challenge.service.ProjectService;
+import io.swagger.v3.oas.annotations.Parameter;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,9 @@ public class ProjectController {
     @PostMapping("")
     @PreAuthorize("#id == #user.id")
     public ResponseEntity<ProjectResponseDTO> executeCreate(
+            @Parameter(description = "Authorization token", example = "Bearer <token>")
+                    @RequestHeader(value = "Authorization", required = true)
+                    String authorization,
             @AuthenticationPrincipal User user,
             @PathVariable UUID id,
             @Validated @RequestBody CreateProjectRequestDTO request) {
@@ -35,6 +39,9 @@ public class ProjectController {
     @GetMapping("")
     @PreAuthorize("#id == #user.id")
     public ResponseEntity<ListResponseDTO<?, ?>> executeGet(
+            @Parameter(description = "Authorization token", example = "Bearer <token>")
+                    @RequestHeader(value = "Authorization", required = true)
+                    String authorization,
             @AuthenticationPrincipal User user,
             @PathVariable UUID id,
             @Validated @ModelAttribute ListRequestDTO request) {

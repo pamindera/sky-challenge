@@ -1,4 +1,3 @@
 package com.sky.challenge.error;
 
-public record ErrorResponse(String error, String message) {
-}
+public record ErrorResponse(String error, String message) {}

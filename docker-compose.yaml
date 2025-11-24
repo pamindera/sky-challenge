@@ -21,7 +21,7 @@ services:
       - 8.8.4.4
   database:
     container_name: database
-    image: postgres:17.5
+    image: postgres:17.6
     environment:
       POSTGRES_PASSWORD: root
       POSTGRES_USER: root

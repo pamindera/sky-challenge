@@ -1,17 +1,16 @@
 package utils;
 
-
 import com.sky.challenge.entity.Project;
 import com.sky.challenge.entity.User;
 import com.sky.challenge.repository.ProjectRepositoryInterface;
 import com.sky.challenge.repository.UserRepositoryInterface;
 import com.sky.challenge.security.JWTService;
 import jakarta.persistence.EntityManager;
+import java.util.Map;
 import lombok.Getter;
 import net.datafaker.Faker;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Map;
 
 @Getter
 @Service
@@ -29,8 +28,7 @@ public class TestingFixtures {
             UserRepositoryInterface userRepository,
             PasswordEncoder passwordEncoder,
             JWTService jwtService,
-            EntityManager entityManager
-    ) {
+            EntityManager entityManager) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -42,9 +40,9 @@ public class TestingFixtures {
     public User createUser(Map<String, String> data) {
         User entity = new User(
                 data.getOrDefault("email", faker.internet().emailAddress()),
-                passwordEncoder.encode(data.getOrDefault("password", faker.internet().password(8,16, true, true, true))),
-                data.getOrDefault("name", faker.name().fullName())
-        );
+                passwordEncoder.encode(
+                        data.getOrDefault("password", faker.internet().password(8, 16, true, true, true))),
+                data.getOrDefault("name", faker.name().fullName()));
 
         return this.userRepository.save(entity);
     }
@@ -54,7 +52,8 @@ public class TestingFixtures {
     }
 
     public Project createProject(Map<String, Object> data) {
-        Project entity = new Project((String) data.getOrDefault("name", faker.random().hex(10)));
+        Project entity =
+                new Project((String) data.getOrDefault("name", faker.random().hex(10)));
 
         if (data.containsKey("user")) {
             User user = (User) data.get("user");

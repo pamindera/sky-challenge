@@ -1,9 +1,13 @@
-package com.sky.challenge.integration;
+package com.sky.challenge.integration.user;
 
-import com.sky.challenge.dto.response.UserResponseDTO;
+import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.sky.challenge.entity.User;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,14 +16,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import utils.TestConfig;
 import utils.TestingFixtures;
-
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-
-import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -36,23 +32,21 @@ public class DeleteUserTest {
     private User testUser;
     private User otherUser;
 
-
     @BeforeEach
     void setUp() {
         RestAssured.port = port;
     }
 
-    @BeforeAll void setUpAll() {
-        testUser = this.testingFixtures.createUser(Map.of("email", "delete_user@mindera.com"));
-        otherUser = this.testingFixtures.createUser(Map.of("email", "other_delete_user@mindera.com"));
+    @BeforeAll
+    void setUpAll() {
+        testUser = this.testingFixtures.createUser(Map.of("email", "delete_user@sky.com"));
+        otherUser = this.testingFixtures.createUser(Map.of("email", "other_delete_user@sky.com"));
     }
-
 
     @Test
     @DisplayName("Should fail - No auth")
     public void executeFailNoAuth() {
-        given()
-                .contentType(ContentType.JSON)
+        given().contentType(ContentType.JSON)
                 .when()
                 .delete("/api/v1/user/{id}", testUser.getId())
                 .then()
@@ -64,23 +58,21 @@ public class DeleteUserTest {
     public void executeErrorPreAuth() {
         String token = this.testingFixtures.login(testUser);
 
-            given()
-                .contentType(ContentType.JSON)
+        given().contentType(ContentType.JSON)
                 .auth()
                 .oauth2(token)
-                .when().delete("/api/v1/user/{id}", otherUser.getId())
+                .when()
+                .delete("/api/v1/user/{id}", otherUser.getId())
                 .then()
                 .statusCode(401);
     }
-
 
     @Test
     @DisplayName("Should succeed - delete user successfully")
     public void executeSuccess() {
         String token = this.testingFixtures.login(testUser);
 
-       given()
-                .contentType(ContentType.JSON)
+        given().contentType(ContentType.JSON)
                 .auth()
                 .oauth2(token)
                 .when()
@@ -91,5 +83,4 @@ public class DeleteUserTest {
         Optional<User> entity = this.testingFixtures.getUserRepository().findById(testUser.getId());
         assertTrue(entity.isEmpty());
     }
-
 }
