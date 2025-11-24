@@ -9,8 +9,7 @@
 
 ## Running and developing the application
 
-Ensure Docker and Docker-compose are installed on your machine.
-
+Ensure Docker and Docker-compose are installed on your machine. (Tested on MacOS 26 with Docker Desktop)
 The application will install its dependencies and start (it may take a few minutes on the first run)
 
 ```shell script
