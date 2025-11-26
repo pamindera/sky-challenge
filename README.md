@@ -78,6 +78,8 @@ Run the Docker container (it might fail as no production configuration is provid
   docker run -p 8080:8080 sky 
 ```
 
+There is also a github pipeline that will run quality tools and build the image on push to main (for demonstration purposes)
+
 ## Database Migration
 Database migrations are handled using Flyway.
 For the dev env, migrations are automatically applied at application startup.

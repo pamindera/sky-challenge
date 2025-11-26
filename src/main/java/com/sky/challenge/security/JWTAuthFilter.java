@@ -1,5 +1,6 @@
 package com.sky.challenge.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sky.challenge.entity.User;
 import com.sky.challenge.error.ErrorMessage;
 import com.sky.challenge.error.ErrorResponse;
@@ -70,10 +71,12 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     }
 
     private void setResponse(HttpServletResponse response) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(
+                new ErrorResponse(HttpStatus.UNAUTHORIZED.getReasonPhrase(), ErrorMessage.INVALID_TOKEN));
+
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
-        response.getWriter()
-                .write(new ErrorResponse(HttpStatus.UNAUTHORIZED.getReasonPhrase(), ErrorMessage.INVALID_TOKEN)
-                        .toString());
+        response.getWriter().write(json);
     }
 }
